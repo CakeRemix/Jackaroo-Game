@@ -3,6 +3,7 @@ package view;
 import java.io.IOException;
 import java.util.*;
 
+import model.Colour;
 import model.card.*;
 import model.card.standard.Ace;
 import model.card.standard.Five;
@@ -59,8 +60,8 @@ public class ControlViewCards {
 	}
 	*/
 	
-	public static ImageView getBackCard(){
-		return new ImageView(new Image("/cards/back_card.png"));
+	public static ImageView getBackCard(String path){
+		return new ImageView(new Image("/cards/back_card_"+path+".png"));
 	}
 	
 	public static void loadFromResources() throws IOException{
