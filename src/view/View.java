@@ -189,12 +189,12 @@ public class View extends Application {
 	public void gameScene(Stage primaryStage, String playerName)
 			throws IOException, GameException {
 		// Initialize the game
-		Image bgImage = new Image("runeterra3.png");
+		Image bgImage = new Image("runeterra4.png");
 		ImageView bgImageView = new ImageView(bgImage);
 		bgImageView.setFitWidth(1980);
 		bgImageView.setFitHeight(1080);
 		bgImageView.setPreserveRatio(false);
-		// Intialize the game
+		// Intialise the game
 		game = new Game(playerName);
 		players = game.getPlayers();
 		player = players.get(0);
@@ -511,7 +511,7 @@ public class View extends Application {
 		Circle playerIcon = new Circle(40);
 		playerIcon.setFill(Color.BLACK);
 		for (int i = 0; i < cpu2.size(); i++) {
-			ImageView iv = ControlViewCards.getBackCard("green");
+			ImageView iv = ControlViewCards.getBackCard("yellow");
 
 			iv.setFitWidth(100);
 			iv.setPreserveRatio(true);
@@ -524,7 +524,7 @@ public class View extends Application {
 			System.out.println(im);
 		}
 		for (int i = 0; i < cpu3.size(); i++) {
-			ImageView iv = ControlViewCards.getBackCard("yellow");
+			ImageView iv = ControlViewCards.getBackCard("green");
 
 			iv.setFitWidth(100);
 			iv.setPreserveRatio(true);
