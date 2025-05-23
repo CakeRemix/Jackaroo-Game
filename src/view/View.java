@@ -511,7 +511,7 @@ public class View extends Application {
 		Circle playerIcon = new Circle(40);
 		playerIcon.setFill(Color.BLACK);
 		for (int i = 0; i < cpu2.size(); i++) {
-			ImageView iv = ControlViewCards.getBackCard("yellow");
+			ImageView iv = ControlViewCards.getBackCard("green");
 
 			iv.setFitWidth(100);
 			iv.setPreserveRatio(true);
@@ -524,7 +524,7 @@ public class View extends Application {
 			System.out.println(im);
 		}
 		for (int i = 0; i < cpu3.size(); i++) {
-			ImageView iv = ControlViewCards.getBackCard("green");
+			ImageView iv = ControlViewCards.getBackCard("yellow");
 
 			iv.setFitWidth(100);
 			iv.setPreserveRatio(true);
