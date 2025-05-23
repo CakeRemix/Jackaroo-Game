@@ -282,8 +282,9 @@ public class View extends Application {
 		StackPane.setAlignment(bottomPlayer, Pos.BOTTOM_CENTER);
 		StackPane.setAlignment(rightPlayer, Pos.CENTER_RIGHT);
 		StackPane.setAlignment(leftPlayer, Pos.CENTER_LEFT);
-		rightPlayer.setRotate(90);
+		rightPlayer.setRotate(-90);
 		leftPlayer.setRotate(90);
+		topPlayer.setRotate(180);
 		gamePane.getChildren().addAll(topPlayer, bottomPlayer, rightPlayer,
 				leftPlayer);
 		
@@ -491,7 +492,7 @@ public class View extends Application {
 		ArrayList<ImageView> cpu1 = viewCardsFor(players.get(1));
 
 		for (int i = 0; i < cpu1.size(); i++) {
-			ImageView iv = ControlViewCards.getBackCard();
+			ImageView iv = ControlViewCards.getBackCard("blue");
 
 			iv.setFitWidth(100);
 			iv.setPreserveRatio(true);
@@ -510,7 +511,7 @@ public class View extends Application {
 		Circle playerIcon = new Circle(40);
 		playerIcon.setFill(Color.BLACK);
 		for (int i = 0; i < cpu2.size(); i++) {
-			ImageView iv = ControlViewCards.getBackCard();
+			ImageView iv = ControlViewCards.getBackCard("yellow");
 
 			iv.setFitWidth(100);
 			iv.setPreserveRatio(true);
@@ -523,7 +524,7 @@ public class View extends Application {
 			System.out.println(im);
 		}
 		for (int i = 0; i < cpu3.size(); i++) {
-			ImageView iv = ControlViewCards.getBackCard();
+			ImageView iv = ControlViewCards.getBackCard("green");
 
 			iv.setFitWidth(100);
 			iv.setPreserveRatio(true);
