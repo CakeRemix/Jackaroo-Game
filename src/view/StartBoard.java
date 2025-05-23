@@ -25,7 +25,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 public class StartBoard {
+<<<<<<< HEAD
 	public static Image supercell ;
+=======
+	public static int size =10;
+>>>>>>> 805677c0a7c3924d7198d89f5f4fda2e610db0c3
 	public static Button playButton;
 	public static void createPlayButton() throws GameException{
 		/*
@@ -41,7 +45,7 @@ public class StartBoard {
 		playButton = new Button("PLAY");
 		playButton.getStyleClass().add("play-button");
 		//playButton.setTextFill(Color.BLACK);
-
+		
 		playButton.setLayoutX(1050);
 		playButton.setLayoutY(800);
 		Pane fixedPositionPane = new Pane();
@@ -104,7 +108,7 @@ public class StartBoard {
 
 		int xa = View.indexToPoint.get(x).x + dx;
 		int ya = View.indexToPoint.get(x).y + dy;
-		Circle cir1 = new Circle(12, View.CellColour);
+		Circle cir1 = new Circle(size, View.CellColour);
 		cir1.setCenterX(xa);
 		cir1.setCenterY(ya);
 		cir1.setStroke(View.colOrder.get(order));
@@ -113,7 +117,7 @@ public class StartBoard {
 		View.track.add(cir1);
 
 		ya += 2 * sk;
-		cir1 = new Circle(12, View.CellColour);
+		cir1 = new Circle(size, View.CellColour);
 		cir1.setCenterX(xa);
 		cir1.setCenterY(ya);
 		cir1.setStroke(View.colOrder.get(order));
@@ -123,7 +127,7 @@ public class StartBoard {
 
 		ya -= sk;
 		xa += sk;
-		cir1 = new Circle(12, View.CellColour);
+		cir1 = new Circle(size, View.CellColour);
 		cir1.setCenterX(xa);
 		cir1.setCenterY(ya);
 		cir1.setStroke(View.colOrder.get(order));
@@ -132,7 +136,7 @@ public class StartBoard {
 		View.track.add(cir1);
 
 		xa -= 2 * sk;
-		cir1 = new Circle(12, View.CellColour);
+		cir1 = new Circle(size, View.CellColour);
 		cir1.setCenterX(xa);
 		cir1.setCenterY(ya);
 		cir1.setStroke(View.colOrder.get(order));
@@ -175,7 +179,7 @@ public class StartBoard {
 				for (int j = 1; j <= 4; j++) {
 					xx += sk;
 					View.safeZoneCenter.get(1).add(new Pair(xx, yy));
-					Circle x = new Circle(12, View.CellColour);
+					Circle x = new Circle(size, View.CellColour);
 					Colour col = View.game.getPlayers().get(1).getColour();
 
 					x.setStroke(View.colOrder.get(1));
@@ -190,7 +194,7 @@ public class StartBoard {
 				for (int j = 1; j <= 4; j++) {
 					yy += sk;
 					View.safeZoneCenter.get(2).add(new Pair(xx, yy));
-					Circle x = new Circle(12, View.CellColour);
+					Circle x = new Circle(size, View.CellColour);
 					x.setStroke(View.colOrder.get(2));
 					x.setStrokeWidth(3);
 					x.setCenterX(xx);
@@ -203,7 +207,7 @@ public class StartBoard {
 				for (int j = 1; j <= 4; j++) {
 					xx -= sk;
 					View.safeZoneCenter.get(3).add(new Pair(xx, yy));
-					Circle x = new Circle(12, View.CellColour);
+					Circle x = new Circle(size, View.CellColour);
 					x.setStroke(View.colOrder.get(3));
 					x.setStrokeWidth(3);
 					x.setCenterX(xx);
@@ -216,7 +220,7 @@ public class StartBoard {
 				for (int j = 1; j <= 4; j++) {
 					yy -= sk;
 					View.safeZoneCenter.get(0).add(new Pair(xx, yy));
-					Circle x = new Circle(12, View.CellColour);
+					Circle x = new Circle(size, View.CellColour);
 					x.setStroke(View.colOrder.get(0));
 					x.setStrokeWidth(3);
 					x.setCenterX(xx);
@@ -227,8 +231,12 @@ public class StartBoard {
 		}
 	}
 	public static void createTrack(int startx, int starty, int sk) {
+<<<<<<< HEAD
 		supercell = new Image("/media/cell1.png");
 		Circle s = new Circle(12, View.CellColour);
+=======
+		Circle s = new Circle(size, View.CellColour);
+>>>>>>> 805677c0a7c3924d7198d89f5f4fda2e610db0c3
 
 		starty -= sk;
 		s.setCenterY(starty);
@@ -240,7 +248,7 @@ public class StartBoard {
 		View.indexToPoint.add(new Pair(startx, starty));
 		int sqsk = (int) ((1 / Math.sqrt(2)) * sk);
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			View.boardCircles.add(x);
 
 			starty -= sk;
@@ -254,7 +262,7 @@ public class StartBoard {
 		}
 
 		for (int i = 0; i < 5; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			View.boardCircles.add(x);
 
 			startx -= sqsk;
@@ -267,7 +275,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			startx -= sk;
 			View.boardCircles.add(x);
 
@@ -279,7 +287,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 4; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			starty -= sk;
 			View.boardCircles.add(x);
 
@@ -291,7 +299,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			startx += sk;
 			View.boardCircles.add(x);
 
@@ -303,7 +311,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 5; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			View.boardCircles.add(x);
 
 			startx += sqsk;
@@ -316,7 +324,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			starty -= sk;
 			View.boardCircles.add(x);
 
@@ -328,7 +336,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 4; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			startx += sk;
 			View.boardCircles.add(x);
 
@@ -340,7 +348,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			starty += sk;
 			View.boardCircles.add(x);
 
@@ -352,7 +360,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 5; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			View.boardCircles.add(x);
 
 			startx += sqsk;
@@ -365,7 +373,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			startx += sk;
 			View.boardCircles.add(x);
 
@@ -377,7 +385,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 4; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			starty += sk;
 			View.boardCircles.add(x);
 
@@ -389,7 +397,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			startx -= sk;
 			View.boardCircles.add(x);
 
@@ -401,7 +409,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 5; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			View.boardCircles.add(x);
 
 			startx -= sqsk;
@@ -414,7 +422,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 8; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			View.boardCircles.add(x);
 
 			starty += sk;
@@ -427,7 +435,7 @@ public class StartBoard {
 			View.indexToPoint.add(new Pair(startx, starty));
 		}
 		for (int i = 0; i < 3; i++) {
-			Circle x = new Circle(12, View.CellColour);
+			Circle x = new Circle(size, View.CellColour);
 			View.boardCircles.add(x);
 
 			startx -= sk;

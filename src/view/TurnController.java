@@ -92,12 +92,15 @@ public class TurnController {
 			} catch (GameException f) {
 				StartBoard.displayAlert("Game Exception", f.getMessage());
 			}
+			TurnController.resetScale();
+
 			handleCpuSequence();
 		} else {
 			if (card == null)
 				return;
 			handlePlayerTurn();
-			
+			TurnController.resetScale();
+
 			handleCpuSequence();
 		}
 	}
@@ -139,6 +142,38 @@ public class TurnController {
 		System.out.println("Human hand now:");
 		View.player.getHand().forEach(
 				c -> System.out.println("  " + c.getImageCode()));
+	}
+	public static void resetScale(){
+		Player player = View.player;
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		 player = View.players.get(1);
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		player = View.players.get(2);
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		player = View.players.get(3);
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		ArrayList<Marble> player2 = View.game.getBoard().getActionableMarbles();
+		for(Marble marble:player2){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
 	}
 	public static void playTrapShakeAnimation(Circle playerToken) {
 	    /*TranslateTransition shake = new TranslateTransition(Duration.millis(50), playerToken);
@@ -244,6 +279,7 @@ public class TurnController {
 				}
 			}
 			View.updateTurnLabel();
+			TurnController.resetScale();
 
 			playNextCpuTurn(cpuQueue);
 
