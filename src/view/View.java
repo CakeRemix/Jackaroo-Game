@@ -195,7 +195,7 @@ public class View extends Application {
 	public void gameScene(Stage primaryStage, String playerName)
 			throws IOException, GameException {
 		// Initialize the game
-		Image bgImage = new Image("runeterra4.png");
+		Image bgImage = new Image("runeterra7.png");
 		ImageView bgImageView = new ImageView(bgImage);
 		bgImageView.setFitWidth(1980);
 		bgImageView.setFitHeight(1080);
