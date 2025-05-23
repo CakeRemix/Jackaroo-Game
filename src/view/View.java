@@ -419,6 +419,7 @@ public class View extends Application {
 		gamePane.getChildren().add(fixedPositionPane2);
 		deselectAll.setOnMouseClicked(e -> {
 			player.deselectAll2();
+			TurnController.resetScale();
 		});
 	}
 
