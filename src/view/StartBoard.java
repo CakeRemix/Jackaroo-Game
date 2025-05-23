@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import exception.GameException;
 import model.Colour;
 import model.player.Marble;
@@ -22,9 +23,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import javafx.scene.image.Image;
 public class StartBoard {
-
+	public static Image supercell ;
 	public static Button playButton;
 	public static void createPlayButton() throws GameException{
 		/*
@@ -225,8 +226,8 @@ public class StartBoard {
 			}
 		}
 	}
-
 	public static void createTrack(int startx, int starty, int sk) {
+		supercell = new Image("/media/cell1.png");
 		Circle s = new Circle(12, View.CellColour);
 
 		starty -= sk;

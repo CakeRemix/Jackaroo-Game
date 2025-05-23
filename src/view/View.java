@@ -113,6 +113,12 @@ public class View extends Application {
 	public static Image playerImage;
 	public static Stage temp;
 	public static ArrayList<Circle> boardCircles;
+	public static void supercellificate(){
+		
+		for (Circle circle : boardCircles){
+			circle.setFill(new ImagePattern(StartBoard.supercell));
+		}
+	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Image bgImage = new Image("/media/mainMenu.png");
@@ -208,6 +214,7 @@ public class View extends Application {
 		// Translate the colour order of the marbles
 		StartBoard.createTheColorOrder();
 		/** boardCells **/
+		
 		AnchorPane boardCells = new AnchorPane();
 		int startx = 880;
 		int starty = 853;
@@ -251,7 +258,7 @@ public class View extends Application {
 		gamePane.getChildren().addAll(marblesPane);
 		StartBoard.createPlayButton();
 		TurnController.playButtonPressed();
-		
+		supercellificate();
 		// bottomPlayer.setStyle("-fx-background-color: yellow;");
 
 		// gamePane.getChildren().add(playerIcon);
