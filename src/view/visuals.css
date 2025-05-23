@@ -1,0 +1,156 @@
+.play-button {
+    -fx-background-color: linear-gradient(to bottom, #a0522d, #8b4513);
+    -fx-background-radius: 14;
+    -fx-background-insets: 0;
+    
+    -fx-text-fill: #fdf5e6; /* OldLace for better contrast */
+    -fx-font-size: 20px;
+    -fx-font-family: "Georgia", serif;
+    -fx-font-weight: bold;
+
+    -fx-effect: dropshadow(gaussian, rgba(101, 67, 33, 0.8), 6, 0.5, 2, 2);
+    -fx-border-color: #d2b48c; /* Tan */
+    -fx-border-width: 3;
+    -fx-border-radius: 14;
+    
+    -fx-padding: 12 24;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 10;
+
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.play-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #8b4513, #5c3317);
+    -fx-text-fill: #fffacd; /* LemonChiffon */
+    -fx-effect: dropshadow(gaussian, black, 8, 0.7, 0, 0);
+    -fx-scale-x: 1.06;
+    -fx-scale-y: 1.06;
+}
+
+.play-button:pressed {
+    -fx-background-color: #4a2d14;
+    -fx-translate-y: 2;
+    -fx-effect: dropshadow(gaussian, #00000099, 4, 0.5, 0, 1);
+}
+
+
+.desert-button {
+    -fx-font-family: "Cinzel Decorative";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFE8C6; /* Light parchment */
+    
+    -fx-background-color: linear-gradient(to bottom, #8B4513, #5C3317); /* Leather fade */
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    
+    -fx-border-color: #D2B48C; /* Tanned edge */
+    -fx-border-width: 3;
+
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 8, 0.2, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+
+.text-field {
+    -fx-background-color: #fdf6e3;
+    -fx-text-fill: #5c3a12;
+    -fx-border-color: #a0522d;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-size: 16px;
+}
+.cowboy-button {
+    -fx-background-color: linear-gradient(to bottom, #c19a6b, #8b5a2b); /* leather look */
+    -fx-text-fill: #fff8dc; /* cornsilk-ish, old paper look */
+    -fx-font-family: "Georgia", "serif"; 
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-color: #deb887; /* burlywood */
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 10 20 10 20;
+    -fx-effect: dropshadow(gaussian, rgba(139,69,19,0.5), 8, 0.3, 2, 2);
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+}
+.cowboy-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #a0522d, #5c3317);
+    -fx-effect: dropshadow(gaussian, rgba(205,133,63,0.8), 10, 0.5, 0, 0);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+.cowboy-button:pressed {
+    -fx-background-color: #5c3317;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+
+
+.card-slot {
+    -fx-border-color: gray;
+    -fx-border-width: 2;
+    -fx-background-color: transparent;
+}
+.card-slot:hover {
+    -fx-border-color: gold;
+}
+/* Jackaroo “Deselect All” button — Desert & Cowboy theme */
+.deselect-btn {
+    /* base colors: sandy tan background, dark brown text */
+    -fx-background-color: 
+        linear-gradient(from 0% 0% to 0% 100%, 
+                        #f0d8a8 0%, #e0c590 50%, #d4b17c 100%);
+    -fx-text-fill: #5a3318;
+    -fx-font-family: "Stencil", "Western", "Serif";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+
+    /* a subtle rope‑like border */
+    -fx-border-color: #8b5a2b;
+    -fx-border-width: 3;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+
+    /* drop‑shadow like a tumbleweed shadow */
+    -fx-effect: dropshadow( gaussian , 	#3C2E70 , 4, 0.0 , 0 , 2 );
+
+    /* padding to give it some heft */
+    -fx-padding: 8 16 8 16;
+}
+.name-label {
+    -fx-background-color: #2E2E8F;
+	-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 4, 0.0 , 0 , 2 );
+    -fx-font-weight: bold;
+    -fx-text-fill: #4C1B1B;
+    -fx-padding: 12 12;
+    -fx-font-size: 20px;
+    -fx-background-radius: 13;
+}
+
+/* On hover: highlight like the hot sun */
+.deselect-btn:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 0% to 0% 100%, 
+                        #f7e3b3 0%, #eecf8d 50%, #e3b96d 100%);
+    -fx-text-fill: #442a14;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.6) , 6, 0.0 , 0 , 3 );
+    -fx-cursor: hand;
+}
+
+/* On press: press into the sand */
+.deselect-btn:pressed {
+    -fx-background-color: 
+        linear-gradient(from 0% 0% to 0% 100%, 
+                        #d4b17c 0%, #c8a56a 50%, #bb9560 100%);
+    -fx-translate-y: 2;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 2, 0.0 , 0 , 1 );
+}
+
