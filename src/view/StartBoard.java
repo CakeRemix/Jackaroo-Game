@@ -25,11 +25,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 public class StartBoard {
-<<<<<<< HEAD
-	public static Image supercell ;
-=======
+	public static Image supercell = new Image("/media/cell2.png");
 	public static int size =10;
->>>>>>> 805677c0a7c3924d7198d89f5f4fda2e610db0c3
 	public static Button playButton;
 	public static void createPlayButton() throws GameException{
 		/*
@@ -231,12 +228,10 @@ public class StartBoard {
 		}
 	}
 	public static void createTrack(int startx, int starty, int sk) {
-<<<<<<< HEAD
-		supercell = new Image("/media/cell1.png");
-		Circle s = new Circle(12, View.CellColour);
-=======
+
+		
+
 		Circle s = new Circle(size, View.CellColour);
->>>>>>> 805677c0a7c3924d7198d89f5f4fda2e610db0c3
 
 		starty -= sk;
 		s.setCenterY(starty);
