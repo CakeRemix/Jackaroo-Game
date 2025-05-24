@@ -283,14 +283,15 @@ public class View extends Application {
 		bottomPlayer.setMinSize(playerBoxWidth, playerBoxHeight);
 		bottomPlayer.setMaxSize(playerBoxWidth, playerBoxHeight);
 		bottomPlayer.setAlignment(Pos.CENTER);
-		StackPane.setAlignment(topPlayer, Pos.TOP_CENTER);
-		StackPane.setAlignment(bottomPlayer, Pos.BOTTOM_CENTER);
-		StackPane.setAlignment(rightPlayer, Pos.CENTER_RIGHT);
-		StackPane.setAlignment(leftPlayer, Pos.CENTER_LEFT);
-		StackPane.setAlignment(topPlayer, Pos.TOP_CENTER);
-		StackPane.setAlignment(bottomPlayer, Pos.BOTTOM_CENTER);
-		StackPane.setAlignment(rightPlayer, Pos.CENTER_RIGHT);
-		StackPane.setAlignment(leftPlayer, Pos.CENTER_LEFT);
+		StackPane.setAlignment(leftPlayer, Pos.TOP_LEFT);
+		StackPane.setMargin(leftPlayer, new Insets(150, 0, 0, 0)); // top, right, bottom, left
+		StackPane.setAlignment(topPlayer, Pos.TOP_RIGHT);
+		StackPane.setMargin(topPlayer, new Insets(0, 300, 0, 0));
+		StackPane.setAlignment(rightPlayer, Pos.BOTTOM_RIGHT);
+		StackPane.setMargin(rightPlayer, new Insets(0, 0, 300, 0));
+		StackPane.setAlignment(bottomPlayer, Pos.BOTTOM_LEFT);
+		StackPane.setMargin(bottomPlayer, new Insets(0, 0, 0, 350));
+
 		rightPlayer.setRotate(-90);
 		leftPlayer.setRotate(90);
 		topPlayer.setRotate(180);
