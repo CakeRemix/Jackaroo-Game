@@ -107,6 +107,7 @@ public class View extends Application {
 	public static ArrayList<ArrayList<Marble>> homeZones;
 	public static AnchorPane cellsPane;
 	public static ImageView playerIconImage;
+	public static String iconIndex;
 	public static Player player;
 	public static Button deselectAll;
 	public static Label turnLabel;
@@ -114,9 +115,10 @@ public class View extends Application {
 	public static Stage temp;
 	public static ArrayList<Circle> boardCircles;
 	public static void supercellificate(){
-		
-		for (Circle circle : boardCircles){
-			circle.setFill(new ImagePattern(StartBoard.supercell));
+		for (int i=0; i<boardCircles.size();i++){
+			if (i%25==0)
+				boardCircles.get(i).setStroke(colOrder.get(i/25));
+			boardCircles.get(i).setFill(new ImagePattern(StartBoard.supercell));
 		}
 	}
 	@Override
@@ -399,7 +401,7 @@ public class View extends Application {
 	
 	public static MediaPlayer mediaPlayer;
     public void playMusic() {
-        Media media = new Media(new File("resources/media/Audio/back_theme.mp3").toURI().toString());
+        Media media = new Media(new File("resources/media/Audio/back_theme_"+iconIndex+".mp3").toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setVolume(0.4);
@@ -692,22 +694,18 @@ public class View extends Application {
 	    icons.add(new ImageView(new Image("/playerIcons/icon2.png")));
 	    icons.add(new ImageView(new Image("/playerIcons/icon3.png")));
 	    icons.add(new ImageView(new Image("/playerIcons/icon4.png")));
-	    /*
 	    icons.add(new ImageView(new Image("/playerIcons/icon5.png")));
-	    icons.add(new ImageView(new Image("/playerIcons/icon6.png")));
-	    icons.add(new ImageView(new Image("/playerIcons/icon7.png")));
-	     */
-	    icons.add(new ImageView(new Image("/playerIcons/icon8.png")));
 	    
-	    for (ImageView icon : icons) {
+	    for (int i=0;i<icons.size();i++) {
+	    	ImageView icon = icons.get(i);
 	        icon.setFitWidth(80);
 	        icon.setFitHeight(80);
+	        icon.setUserData(String.valueOf(i));
 	        icon.setCursor(Cursor.HAND);
-
 	        icon.setOnMouseClicked(e -> {
 	            try {
 	                playerIconImage = icon;
-
+	                iconIndex = (String) icon.getUserData();
 	                gameScene(primaryStage, playerName);
 	            } catch (Exception ex) {
 	                System.out.println(ex.toString());
