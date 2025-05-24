@@ -46,6 +46,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
@@ -720,7 +723,16 @@ public class View extends Application {
 
 	    VBox layout = new VBox(30, promptLabel, iconBox);
 	    layout.setAlignment(Pos.CENTER);
-	    layout.setStyle("-fx-background-color: #222; -fx-padding: 40;");
+	    BackgroundImage backgroundImage = new BackgroundImage(
+	    	    new Image(getClass().getResource("/wallpaper.jpg").toExternalForm(), 1920, 1080, false, true),
+	    	    BackgroundRepeat.NO_REPEAT,
+	    	    BackgroundRepeat.NO_REPEAT,
+	    	    BackgroundPosition.DEFAULT,
+	    	    new BackgroundSize(100, 100, true, true, true, false)
+	    	);
+	    	layout.setBackground(new Background(backgroundImage));
+	    	layout.setPadding(new Insets(40)); // moved from style
+
 
 	    Scene iconScene = new Scene(layout, 1980, 1080);
 	    primaryStage.setScene(iconScene);
