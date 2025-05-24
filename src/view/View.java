@@ -128,19 +128,34 @@ public class View extends Application {
 	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Image bgImage = new Image("/media/mainMenu.png");
+		Image bgImage = new Image("/media/main_menu.jpg");
 		ImageView bgImageView = new ImageView(bgImage);
 		bgImageView.setFitWidth(1980);
 		bgImageView.setFitHeight(1080);
 		bgImageView.setPreserveRatio(false);
-
+		MediaPlayer bgMusicPlayer = new MediaPlayer(
+		        new Media(getClass().getResource("/media/Audio/main_menu_music.mp3").toExternalForm())
+		    );
+		bgMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+		bgMusicPlayer.play();
 		Button startButton = new Button("Start");
 
-		startButton.setPrefSize(150, 75);
+		startButton.setPrefSize(200, 200);
 		startButton
 				.setFont(Font.font("Cinzel Decorative", FontWeight.BOLD, 32));
-		startButton.getStyleClass().add("cowboy-button");
+		Image image = new Image(getClass().getResource("/media/menu_button.png").toExternalForm());
 
+		BackgroundImage bgimage = new BackgroundImage(
+		    image,
+		    BackgroundRepeat.NO_REPEAT,
+		    BackgroundRepeat.NO_REPEAT,
+		    BackgroundPosition.CENTER,
+		    new BackgroundSize(200, 200, false, false, false, false)
+		);
+
+		startButton.setBackground(new Background(bgimage));
+		startButton.setText(""); // Remove text, or overlay if desired
+		startButton.setPrefSize(200, 200); // Match image size
 		startButton.setTextFill(Color.WHITE);
 
 		Font font = Font.font("Open Sans", FontWeight.MEDIUM, 18);
@@ -156,7 +171,7 @@ public class View extends Application {
 		nameField.setFont(font);
 
 		startButton.setOnAction(e -> {
-
+			
 			startButton.setVisible(false);
 			nameField.setVisible(true);
 			textLabel.setVisible(true);
@@ -167,6 +182,7 @@ public class View extends Application {
 				textLabel.setVisible(false);
 
 				if (k.getCode().toString().equals("ENTER")) {
+					bgMusicPlayer.stop();
 					playerName = nameField.getText();
 					nameField.setVisible(false);
 					textLabel.setVisible(false);
