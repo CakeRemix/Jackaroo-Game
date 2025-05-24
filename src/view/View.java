@@ -60,6 +60,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -73,6 +74,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class View extends Application {
+	private MediaPlayer backgroundMediaPlayer; 
 	public static StackPane gamePane = new StackPane();
 	public static Game game;
 	public static AnchorPane gameroot;
@@ -671,6 +673,43 @@ public class View extends Application {
 			}
 		});
 	}
+	private void cleanupAndStartGame(MediaPlayer mediaPlayer, Stage stage, String playerName) {
+	    if (mediaPlayer != null) {
+	        mediaPlayer.stop();
+	        mediaPlayer.dispose();
+	    }
+	    try {
+	        gameScene(stage, playerName);
+	    } catch (IOException | GameException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+	public void playTransitionVideo(Stage primaryStage, String playerName) {
+	    String videoPath = getClass().getResource("/video/icon_selected.mp4").toExternalForm();
+	    Media media = new Media(videoPath);
+	    MediaPlayer mediaPlayer = new MediaPlayer(media);
+	    MediaView mediaView = new MediaView(mediaPlayer);
+
+	    mediaView.setFitWidth(1920);
+	    mediaView.setFitHeight(1080);
+
+	    StackPane root = new StackPane(mediaView);
+	    Scene videoScene = new Scene(root, 1920, 1080);
+	    primaryStage.setScene(videoScene);
+	    primaryStage.setFullScreen(true);
+	    primaryStage.setFullScreenExitHint("");
+
+	    // After video ends, go to game scene
+	    mediaPlayer.setOnEndOfMedia(() -> {
+	        cleanupAndStartGame(mediaPlayer, primaryStage, playerName);
+	    });
+
+	    mediaPlayer.play();  
+	}
+
+
 
 	public static ArrayList<ImageView> viewCardsFor(Player player) {
 		ArrayList<ImageView> views = new ArrayList<>();
@@ -688,20 +727,15 @@ public class View extends Application {
 	    promptLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 	    promptLabel.setTextFill(Color.WHITE);
 
-	    // Icons as images (replace with your actual image paths)
-	    ImageView icon1 = new ImageView(new Image("/playerIcons/icon1.png"));
-	    ImageView icon2 = new ImageView(new Image("/playerIcons/icon2.png"));
-	    ImageView icon3 = new ImageView(new Image("/playerIcons/icon3.png"));
-
 	    ArrayList<ImageView> icons = new ArrayList<>();
 	    icons.add(new ImageView(new Image("/playerIcons/icon1.png")));
 	    icons.add(new ImageView(new Image("/playerIcons/icon2.png")));
 	    icons.add(new ImageView(new Image("/playerIcons/icon3.png")));
 	    icons.add(new ImageView(new Image("/playerIcons/icon4.png")));
 	    icons.add(new ImageView(new Image("/playerIcons/icon5.png")));
-	    
-	    for (int i=0;i<icons.size();i++) {
-	    	ImageView icon = icons.get(i);
+
+	    for (int i = 0; i < icons.size(); i++) {
+	        ImageView icon = icons.get(i);
 	        icon.setFitWidth(80);
 	        icon.setFitHeight(80);
 	        icon.setUserData(String.valueOf(i));
@@ -710,7 +744,15 @@ public class View extends Application {
 	            try {
 	                playerIconImage = icon;
 	                iconIndex = (String) icon.getUserData();
-	                gameScene(primaryStage, playerName);
+
+	                
+	                if (backgroundMediaPlayer != null) {
+	                    backgroundMediaPlayer.stop();
+	                    backgroundMediaPlayer.dispose();
+	                    backgroundMediaPlayer = null;
+	                }
+
+	                playTransitionVideo(primaryStage, playerName);
 	            } catch (Exception ex) {
 	                System.out.println(ex.toString());
 	            }
@@ -721,26 +763,32 @@ public class View extends Application {
 	    iconBox.getChildren().addAll(icons);
 	    iconBox.setAlignment(Pos.CENTER);
 
-	    VBox layout = new VBox(30, promptLabel, iconBox);
-	    layout.setAlignment(Pos.CENTER);
-	    BackgroundImage backgroundImage = new BackgroundImage(
-	    	    new Image(getClass().getResource("/wallpaper.jpg").toExternalForm(), 1920, 1080, false, true),
-	    	    BackgroundRepeat.NO_REPEAT,
-	    	    BackgroundRepeat.NO_REPEAT,
-	    	    BackgroundPosition.DEFAULT,
-	    	    new BackgroundSize(100, 100, true, true, true, false)
-	    	);
-	    	layout.setBackground(new Background(backgroundImage));
-	    	layout.setPadding(new Insets(40)); // moved from style
+	    VBox content = new VBox(30, promptLabel, iconBox);
+	    content.setAlignment(Pos.CENTER);
+	    content.setPadding(new Insets(40));
 
+	    
+	    Media media = new Media(getClass().getResource("/video/icon_selection.mp4").toExternalForm());
+	    backgroundMediaPlayer = new MediaPlayer(media);  // assign to field
+	    backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop forever
+	    backgroundMediaPlayer.setAutoPlay(true);
 
-	    Scene iconScene = new Scene(layout, 1980, 1080);
+	    MediaView mediaView = new MediaView(backgroundMediaPlayer);
+	    mediaView.setPreserveRatio(false);
+	    mediaView.setFitWidth(1980);
+	    mediaView.setFitHeight(1080);
+
+	    StackPane root = new StackPane();
+	    root.getChildren().addAll(mediaView, content); // Video in back, UI on top
+
+	    Scene iconScene = new Scene(root, 1980, 1080);
 	    primaryStage.setScene(iconScene);
 	    primaryStage.setFullScreen(true);
 	    primaryStage.setFullScreenExitHint("");
-
 	    primaryStage.show();
 	}
+
+	
 
 	public static void main(String[] args) {
 		launch(args);
