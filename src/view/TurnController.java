@@ -35,6 +35,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -51,11 +52,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -63,7 +66,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import javafx.stage.Modality;
 public class TurnController {
 	public static void playButtonPressed() {
 		StartBoard.playButton.setOnMouseClicked(e -> onHumanPlay());
@@ -104,6 +107,55 @@ public class TurnController {
 			handleCpuSequence();
 		}
 	}
+	private static void showTrapCutscene(Node anyNodeInScene) {
+		String index = String.valueOf(View.boardCircles.indexOf(anyNodeInScene)/25);
+	    Platform.runLater(() -> {
+	        Scene scene = anyNodeInScene.getScene();
+	        Parent root = scene.getRoot();
+
+	        // Wrap the root in a StackPane if it's not one already
+	        StackPane stackRoot;
+	        if (root instanceof StackPane) {
+	            stackRoot = (StackPane) root;
+	        } else {
+	            // Replace root with StackPane
+	            stackRoot = new StackPane();
+	            stackRoot.getChildren().add(root);
+	            scene.setRoot(stackRoot); // this line replaces the root
+	        }
+
+	        // Load media file
+	        String videoPath = TurnController.class.getResource("/video/trap_video_"+index+".mp4").toExternalForm();
+	        Media media = new Media(videoPath);
+	        MediaPlayer mediaPlayer = new MediaPlayer(media);
+	        MediaView mediaView = new MediaView(mediaPlayer);
+
+	        // Make video fill the scene
+	        mediaView.setPreserveRatio(false);
+	        mediaView.setFitWidth(scene.getWidth());
+	        mediaView.setFitHeight(scene.getHeight());
+
+	        // Black background behind video
+	        StackPane videoOverlay = new StackPane(mediaView);
+	        videoOverlay.setStyle("-fx-background-color: black;");
+	        videoOverlay.setPickOnBounds(true); // absorb mouse clicks
+
+	        stackRoot.getChildren().add(videoOverlay);
+
+	        // Remove video when done
+	        mediaPlayer.setOnEndOfMedia(() -> {
+	            stackRoot.getChildren().remove(videoOverlay);
+	            mediaPlayer.dispose();
+	        });
+
+	        mediaPlayer.play();
+	    });
+	}
+
+
+
+
+
 
 	private static void handlePlayerTurn() {
 		try {
@@ -134,11 +186,12 @@ public class TurnController {
 		
 		Game.discardIndex = -1;
 
-		if (Board.isTrapInPath!=-1) {
-			StartBoard.displayAlert("TrapCell", "Player have fallen in a trap cell.");
-			playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
-			Board.isTrapInPath = -1;
+		if (Board.isTrapInPath != -1) {
+		    playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
+		    showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
+		    Board.isTrapInPath = -1;
 		}
+
 		System.out.println("Human hand now:");
 		View.player.getHand().forEach(
 				c -> System.out.println("  " + c.getImageCode()));
