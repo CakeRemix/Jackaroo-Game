@@ -2,6 +2,9 @@ package engine.board;
 
 import java.util.ArrayList;
 
+import view.Pair;
+import view.View;
+import view.updateCells;
 import engine.GameManager;
 import exception.CannotFieldException;
 import exception.IllegalDestroyException;
@@ -81,7 +84,14 @@ public class Board implements BoardManager {
         
         return -1;
     }
-
+    public static int getPositionInPath2(ArrayList<Cell> path, Marble marble) {
+        for(int i = 0; i < path.size(); i++) {
+            if(path.get(i).getMarble() == marble) 
+                return i;
+        }
+        
+        return -1;
+    }
     private int getBasePosition(Colour colour) {
         for(int i = 0; i < safeZones.size(); i++) {
             if(safeZones.get(i).getColour() == colour)
@@ -208,7 +218,7 @@ public class Board implements BoardManager {
     private void move(Marble marble, ArrayList<Cell> fullPath, boolean destroy) throws IllegalDestroyException {
     	Cell currentCell = fullPath.get(0);
     	Cell targetCell = fullPath.get(fullPath.size()-1);
-    	
+    	ArrayList<Cell> safe = getSafeZone(gameManager.getActivePlayerColour());
     	currentCell.setMarble(null);
 
         if (destroy) {
@@ -230,9 +240,65 @@ public class Board implements BoardManager {
             targetCell.setTrap(false);
             assignTrapCell();
         }
-        
+        ArrayList<Pair> path = new ArrayList<>();
+    	for(int j = 0;j<fullPath.size();j++){
+    		path.add(View.cellToPoint.get(fullPath.get(j)));
+    	}
+    	updateCells.minionMove(marble.getColour(),path,marble.marbleIcon);
+    	
+    }
+        /*
+        for(int i = 1;i<fullPath.size();i++){
+        	int oldIndexInTrack = cellIndex(fullPath.get(i-1));
+        	int oldIndexInSafe = cellIndexInSafe(fullPath.get(i-1));
+        	Pair oldPair;
+        	if(oldIndexInTrack!=-1){
+        		oldPair = View.indexToPoint.get(oldIndexInTrack);
+        	}else if(oldIndexInSafe!=-1){
+        		int j = 0;
+        		for(;j<safeZones.size();j++){
+        			if(safeZones.get(j).getColour().equals(gameManager.getActivePlayerColour())){
+        				break;
+        			}
+        		}
+        		oldPair = View.safeZoneCenter.get(j).get(oldIndexInSafe);
+        	}
+        	int newIndexInTrack = cellIndex(fullPath.get(i));
+        	int newIndexInSafe = cellIndexInSafe(fullPath.get(i));
+        	Pair newPair;
+        	if(newIndexInTrack!=-1){
+        		newPair = View.indexToPoint.get(newIndexInTrack);
+        	}else if(newIndexInSafe!=-1){
+        		int j = 0;
+        		for(;j<safeZones.size();j++){
+        			if(safeZones.get(j).getColour().equals(gameManager.getActivePlayerColour())){
+        				break;
+        			}
+        		}
+        		newPair = View.safeZoneCenter.get(j).get(newIndexInSafe);
+        	}else{
+        		newPair = 
+        	}
+        }
 	}
-    
+    public int cellIndexInSafe(Cell cell){
+    	ArrayList<Cell> safe = getSafeZone(gameManager.getActivePlayerColour());
+    	for(int i = 0;i<safe.size();i++){
+    		if(cell == safe.get(i)){
+    			return i;
+    		}
+    	}
+    	return -1;
+    }
+    public int cellIndex(Cell cell){
+    	for(int i = 0;i<track.size();i++){
+    		if(cell==track.get(i)){
+    			return i;
+    		}
+    	}
+    	return -1;
+    }
+    */
     private void validateSwap(Marble marble_1, Marble marble_2) throws IllegalSwapException {
     	Colour ownerColour = gameManager.getActivePlayerColour();
 

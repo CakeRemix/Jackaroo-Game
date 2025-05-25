@@ -12,6 +12,8 @@ import java.util.Queue;
 
 import engine.*;
 import engine.board.Board;
+import engine.board.Cell;
+import engine.board.SafeZone;
 import exception.GameException;
 import model.Colour;
 import model.card.Card;
@@ -107,59 +109,51 @@ public class TurnController {
 			handleCpuSequence();
 		}
 	}
-	private static void showTrapCutscene(Node anyNodeInScene) {
-		String index = String.valueOf(View.boardCircles.indexOf(anyNodeInScene)/25);
-	    Platform.runLater(() -> {
-	        Scene scene = anyNodeInScene.getScene();
-	        Parent root = scene.getRoot();
 
-	        // Wrap the root in a StackPane if it's not one already
-	        StackPane stackRoot;
-	        if (root instanceof StackPane) {
-	            stackRoot = (StackPane) root;
-	        } else {
-	            // Replace root with StackPane
-	            stackRoot = new StackPane();
-	            stackRoot.getChildren().add(root);
-	            scene.setRoot(stackRoot); // this line replaces the root
-	        }
-
-	        // Load media file
-	        String videoPath = TurnController.class.getResource("/video/trap_video_"+index+".mp4").toExternalForm();
-	        Media media = new Media(videoPath);
-	        MediaPlayer mediaPlayer = new MediaPlayer(media);
-	        MediaView mediaView = new MediaView(mediaPlayer);
-
-	        // Make video fill the scene
-	        mediaView.setPreserveRatio(false);
-	        mediaView.setFitWidth(scene.getWidth());
-	        mediaView.setFitHeight(scene.getHeight());
-
-	        // Black background behind video
-	        StackPane videoOverlay = new StackPane(mediaView);
-	        videoOverlay.setStyle("-fx-background-color: black;");
-	        videoOverlay.setPickOnBounds(true); // absorb mouse clicks
-
-	        stackRoot.getChildren().add(videoOverlay);
-
-	        // Remove video when done
-	        mediaPlayer.setOnEndOfMedia(() -> {
-	            stackRoot.getChildren().remove(videoOverlay);
-	            mediaPlayer.dispose();
-	        });
-
-	        mediaPlayer.play();
-	    });
+	public static Pair searchAllCells(Marble marble){
+		ArrayList<SafeZone> safeZones = View.game.getBoard().getSafeZones();
+		
+		for(int i = 0;i<safeZones.size();i++){
+			for(int j = 0;j<safeZones.get(i).getCells().size();j++){
+				if(marble==safeZones.get(i).getCells().get(j).getMarble()){
+					return new Pair(View.safeZoneCenter.get(i).get(j).x,View.safeZoneCenter.get(i).get(j).y);
+				}
+			}
+		}
+		if(Board.getPositionInPath2(View.game.getBoard().getTrack(), marble)==-1){
+			return null;
+		}
+		for(int i =0;i<View.game.getBoard().getTrack().size();i++){
+			if(View.game.getBoard().getTrack().get(i).getMarble()==marble){
+				return new Pair(View.indexToPoint.get(i).x,View.indexToPoint.get(i).y);
+			}
+		}
+		return null;
 	}
-
-
-
-
-
+	public static ArrayList<Pair> allIntialMarbles(){
+		ArrayList<Pair> res = new ArrayList<>();
+		Player currentPlayer = View.players.get(View.game.getCurrentPlayerIndex1());
+		ArrayList<Marble> selected = currentPlayer.getSelectedMarbles3();
+		
+		for(Marble selectedMarble : selected){
+			Pair temp  = searchAllCells(selectedMarble);
+			res.add(temp);
+		}
+		return res;
+	}
 
 	private static void handlePlayerTurn() {
 		try {
+			//ArrayList<Pair> intialPairs = allIntialMarbles();
+			
 			View.game.playPlayerTurn();
+			/*
+			ArrayList<Pair> finalPairs = allIntialMarbles();
+			Player currentPlayer = View.players.get(View.game.getCurrentPlayerIndex1());
+			for(int i =0;i<intialPairs.size();i++){
+				if(intialPairs.get(i)!=null && finalPairs.get(i)!=null && i<finalPairs.size())
+					updateCells.minionMove(View.game.getActivePlayerColour(),intialPairs.get(i),finalPairs.get(i),currentPlayer.getSelectedMarbles3().get(i).marbleIcon);
+			}*/
 		} catch (GameException e) {
 			StartBoard.displayAlert("Game Exception", e.getMessage());
 		}
@@ -169,8 +163,7 @@ public class TurnController {
 		} catch (GameException e) {
 			StartBoard.displayAlert("Game Exception", e.getMessage());
 		}
-	
-		updateCells.update();
+		
 		Colour w = View.game.checkWin();
 		if (w != null) {
 			showWinnerPopup3(w);
@@ -185,67 +178,20 @@ public class TurnController {
 		}
 		
 		Game.discardIndex = -1;
-
+		PauseTransition update = new PauseTransition(Duration.millis(500));
+		update.setOnFinished(e->{
+			
+		});
+		updateCells.update();
 		if (Board.isTrapInPath != -1) {
-		    playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
-		    showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
+		    //playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
+		    //showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
 		    Board.isTrapInPath = -1;
 		}
 
 		System.out.println("Human hand now:");
 		View.player.getHand().forEach(
 				c -> System.out.println("  " + c.getImageCode()));
-	}
-	public static void resetScale(){
-		Player player = View.player;
-		for(Marble marble:player.getMarbles()){
-			marble.getIcon().setScaleX(1);
-			marble.getIcon().setScaleY(1);
-
-		}
-		 player = View.players.get(1);
-		for(Marble marble:player.getMarbles()){
-			marble.getIcon().setScaleX(1);
-			marble.getIcon().setScaleY(1);
-
-		}
-		player = View.players.get(2);
-		for(Marble marble:player.getMarbles()){
-			marble.getIcon().setScaleX(1);
-			marble.getIcon().setScaleY(1);
-
-		}
-		player = View.players.get(3);
-		for(Marble marble:player.getMarbles()){
-			marble.getIcon().setScaleX(1);
-			marble.getIcon().setScaleY(1);
-
-		}
-		ArrayList<Marble> player2 = View.game.getBoard().getActionableMarbles();
-		for(Marble marble:player2){
-			marble.getIcon().setScaleX(1);
-			marble.getIcon().setScaleY(1);
-
-		}
-	}
-	public static void playTrapShakeAnimation(Circle playerToken) {
-	    /*TranslateTransition shake = new TranslateTransition(Duration.millis(50), playerToken);
-	    shake.setByX(10);
-	    shake.setCycleCount(6);
-	    shake.setAutoReverse(true);
-	    shake.play();*/
-		double x = playerToken.getCenterX();
-		double y = playerToken.getCenterY();
-		
-		Circle newC = new Circle(12,View.CellColour);
-		newC.setCenterX(x);
-		newC.setCenterY(y);
-		playerToken.disableProperty();
-	    FillTransition flash = new FillTransition(Duration.millis(300), playerToken, Color.WHITE, Color.RED);
-	    flash.setCycleCount(2);
-	    flash.setAutoReverse(true);
-	    flash.play();
-
 	}
 	private static void handleCpuSequence() {
 		Queue<Integer> queue = new ArrayDeque<>();
@@ -319,7 +265,7 @@ public class TurnController {
 				if (Board.isTrapInPath!=-1) {
 					System.out.println("TRAP for "
 							+ View.players.get(playerIdx).getName());
-					playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
+					//	playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
 					Board.isTrapInPath = -1;
 				}
 				
@@ -367,76 +313,7 @@ public class TurnController {
 		Game.discardIndex = -1;
 	}
 
-	/*
-	 * public static void playButtonPressed() throws GameException {
-	 * 
-	 * StartBoard.playButton.setOnMouseClicked(e -> {
-	 * 
-	 * Card card = View.player.getSelectedCard(); if (card instanceof Seven &&
-	 * View.player.getSelectedMarbles2() == 2) { try { View.promptForOneToSix();
-	 * } catch (GameException e1) { // TODO Auto-generated catch block
-	 * System.out.println(e1.toString()); } }
-	 * 
-	 * System.out.println("pressed");
-	 * 
-	 * if (View.game.checkWin() == null) { if (!View.game.canPlayTurn()) {
-	 * View.player.deselectAll(); } else { if (card == null) { return; }
-	 * 
-	 * try { View.game.playPlayerTurn(); } catch (Exception e1) { // TODO
-	 * Auto-generated catch block System.out.println(e1.toString()); } // marble
-	 * update
-	 * 
-	 * // StartBoard.displayAlert("", g.getMessage());
-	 * 
-	 * try { View.game.endPlayerTurn2(); } catch (Exception e1) { // TODO
-	 * Auto-generated catch block System.out.println(e1.toString()); }
-	 * 
-	 * } System.out.println("player:"); for(int i
-	 * =0;i<View.player.getHand().size();i++){
-	 * System.out.println(View.player.getHand().get(i).getName()); }
-	 * if(Board.isTrapInPath){ System.out.println("TRAAAAAAP CELL PLAYER");
-	 * Board.isTrapInPath = false; } ArrayList<Integer> cpuTurns = new
-	 * ArrayList<>(Arrays .asList(1, 2, 3)); try {
-	 * playCpuTurnsSequentially(cpuTurns, 0); } catch (Exception e1) { // TODO
-	 * Auto-generated catch block System.out.println(e1.toString()); }
-	 * 
-	 * } else { winnerWinnerChickenDinner(View.game.checkWin()); }
-	 * 
-	 * }) ; }
-	 * 
-	 * public static void playCpuTurnsSequentially(ArrayList<Integer> turns, int
-	 * index) throws GameException { if (index >= turns.size()) return;
-	 * 
-	 * int i = turns.get(index);
-	 * 
-	 * PauseTransition pause = new PauseTransition(Duration.seconds(1));
-	 * pause.setOnFinished(event -> { if (View.game.canPlayTurn()) { try {
-	 * View.game.playPlayerTurn(); } catch (GameException e1) {
-	 * System.out.println("Game Exception at turn " + i);
-	 * System.out.println(e1.getMessage()); }
-	 * 
-	 * try { View.game.endPlayerTurn2(); } catch (Exception t) {
-	 * System.out.println(t);
-	 * System.out.println("Exception while removing card view"); }
-	 * 
-	 * 
-	 * updateCells.update(); if(Board.isTrapInPath){
-	 * System.out.println("TRAAAAAAP CELL"+View.players.get(i).getName());
-	 * Board.isTrapInPath = false; } if (View.game.checkWin() != null) {
-	 * winnerWinnerChickenDinner(View.game.checkWin()); } else { try {
-	 * playCpuTurnsSequentially(turns, index + 1); } catch (GameException kf) {
-	 * System.out.println(kf.toString()); } } }else{ try{
-	 * View.game.endPlayerTurn2(); }catch(GameException m){
-	 * System.out.println(m.toString()); } } switch (i) { case 1:
-	 * removeOneCardView(View.leftPlayer); break; case 2:
-	 * removeOneCardView(View.topPlayer); break; case 3:
-	 * removeOneCardView(View.rightPlayer); break; }
-	 * System.out.println(View.players.get(i).getName()); for(int j
-	 * =0;j<View.players.get(i).getHand().size();j++){
-	 * System.out.println(View.players.get(i).getHand().get(j).getName()); } });
-	 * 
-	 * pause.play(); // start the delay }
-	 */
+	
 	public static void removeOneCardView(HBox handView) {
 		try {
 			 if (handView.getChildren().isEmpty()) return;
@@ -510,5 +387,93 @@ public class TurnController {
 		slide.setToY(0);
 		slide.setCycleCount(1);
 		slide.play();
+	}
+	public static void resetScale(){
+		Player player = View.player;
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		 player = View.players.get(1);
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		player = View.players.get(2);
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		player = View.players.get(3);
+		for(Marble marble:player.getMarbles()){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+		ArrayList<Marble> player2 = View.game.getBoard().getActionableMarbles();
+		for(Marble marble:player2){
+			marble.getIcon().setScaleX(1);
+			marble.getIcon().setScaleY(1);
+
+		}
+	}
+	private static void showTrapCutscene(Node anyNodeInScene) {
+		String index = String.valueOf(View.boardCircles.indexOf(anyNodeInScene)/25);
+	    Platform.runLater(() -> {
+	        Scene scene = anyNodeInScene.getScene();
+	        Parent root = scene.getRoot();
+	        StackPane stackRoot;
+	        if (root instanceof StackPane) {
+	            stackRoot = (StackPane) root;
+	        } else {
+	            stackRoot = new StackPane();
+	            stackRoot.getChildren().add(root);
+	            scene.setRoot(stackRoot); // this line replaces the root
+	        }
+	        String videoPath = TurnController.class.getResource("/video/trap_video_"+index+".mp4").toExternalForm();
+	        Media media = new Media(videoPath);
+	        MediaPlayer mediaPlayer = new MediaPlayer(media);
+	        MediaView mediaView = new MediaView(mediaPlayer);
+	        mediaView.setPreserveRatio(false);
+	        mediaView.setFitWidth(scene.getWidth());
+	        mediaView.setFitHeight(scene.getHeight());
+	        StackPane videoOverlay = new StackPane(mediaView);
+	        videoOverlay.setStyle("-fx-background-color: black;");
+	        videoOverlay.setOnMouseClicked(e->{
+	        	stackRoot.getChildren().remove(videoOverlay);
+	            mediaPlayer.dispose();
+	        });
+
+	        stackRoot.getChildren().add(videoOverlay);
+	        mediaPlayer.setOnEndOfMedia(() -> {
+	            stackRoot.getChildren().remove(videoOverlay);
+	            mediaPlayer.dispose();
+	        });
+
+	        mediaPlayer.play();
+	    });
+	}
+
+	public static void playTrapShakeAnimation(Circle playerToken) {
+	    /*TranslateTransition shake = new TranslateTransition(Duration.millis(50), playerToken);
+	    shake.setByX(10);
+	    shake.setCycleCount(6);
+	    shake.setAutoReverse(true);
+	    shake.play();*/
+		double x = playerToken.getCenterX();
+		double y = playerToken.getCenterY();
+		
+		Circle newC = new Circle(12,View.CellColour);
+		newC.setCenterX(x);
+		newC.setCenterY(y);
+		playerToken.disableProperty();
+	    FillTransition flash = new FillTransition(Duration.millis(300), playerToken, Color.WHITE, Color.RED);
+	    flash.setCycleCount(2);
+	    flash.setAutoReverse(true);
+	    flash.play();
+
 	}
 }

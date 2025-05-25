@@ -8,6 +8,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -91,13 +92,18 @@ public class View extends Application {
 	public static TreeMap<Pair, Button> pointToButton = new TreeMap<>();
 	public static TreeMap<Button, Pair> buttonToPoint = new TreeMap<>();
 	public static TreeMap<Pair, Integer> pointToIndex = new TreeMap<>();
+	public static HashMap<Cell,Pair> cellToPoint = new HashMap<>();
 	public static StackPane firePit;
 	public static AnchorPane marblesPane;
 	// Cards
 	public static HBox topPlayer = new HBox(10);
 	public static HBox rightPlayer = new HBox(10);
 	public static HBox leftPlayer = new HBox(10);
-
+	public static Circle minionRed = new Circle(25);
+	public static Circle minionBlue = new Circle(25);
+	public static Circle minionYellow = new Circle(25);
+	public static Circle minionGreen = new Circle(25);
+	
 	public static HBox bottomPlayer = new HBox(10);
 	public static AnchorPane playPane;
 	public static final double WIDTH = Screen.getPrimary().getVisualBounds()
@@ -258,7 +264,20 @@ public class View extends Application {
 		gameroot.getChildren().add(boardCells);
 	
 		marblesPane = new AnchorPane();
-	
+		minionRed.setFill(new ImagePattern(new Image("/media/minion2.png")));
+		minionBlue.setFill(new ImagePattern(new Image("/media/minion2.png")));
+		minionYellow.setFill(new ImagePattern(new Image("/media/minion2.png")));
+		minionGreen.setFill(new ImagePattern(new Image("/media/minion2.png")));
+		
+		gameroot.getChildren().add(minionRed);
+		gameroot.getChildren().add(minionBlue);
+		gameroot.getChildren().add(minionGreen);
+		gameroot.getChildren().add(minionYellow);
+		minionRed.setVisible(false);
+		minionBlue.setVisible(false);
+		minionYellow.setVisible(false);
+		minionGreen.setVisible(false);
+
 		firePit = new StackPane();
 		gamePane.getChildren().add(firePit);
 		firePit.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -347,7 +366,10 @@ public class View extends Application {
 		bottomRight.setTranslateY(-160);
 		
 		
-		
+		ArrayList<Cell> track = game.getBoard().getTrack();
+		for(int i = 0;i<track.size();i++){
+			System.out.println(cellToPoint.get(track.get(i))+"  "+i);
+		}
 		gamePane.getChildren().addAll(topLeft, topRight, bottomRight,
 				bottomLeft);
 		

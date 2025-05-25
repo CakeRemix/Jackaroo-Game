@@ -46,7 +46,10 @@ public class Player {
     public ArrayList<Card> getHand() {
         return hand;
     }
-
+    
+    public ArrayList<Marble> getSelectedMarbles3(){
+    	return selectedMarbles;
+    }
     public void setHand(ArrayList<Card> hand) {
         this.hand = hand;
     }

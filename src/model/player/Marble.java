@@ -47,19 +47,9 @@ public class Marble {
 
     public Circle createMarble(Color baseColor) {
     	double radius = 20;
-        RadialGradient gradient = new RadialGradient(
-            45, 0.1,
-            0.3, 0.3,
-            1.0,
-            true,
-            CycleMethod.NO_CYCLE,
-            new Stop(0,   Color.WHITE),
-            new Stop(0.3, baseColor.brighter()),
-            new Stop(1.0, baseColor.darker())
-        );
+       
 
         Circle marble = new Circle(radius);
-        marble.setFill(gradient);
         DropShadow glow = new DropShadow();
         glow.setColor(baseColor.deriveColor(0, 1.0, 1.5, 0.8));
         glow.setRadius(12);
