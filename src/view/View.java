@@ -28,6 +28,8 @@ import model.card.standard.Suit;
 import model.card.wild.Saver;
 import model.player.Marble;
 import model.player.Player;
+import javafx.animation.Interpolator;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -73,6 +75,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class View extends Application {
 	private MediaPlayer backgroundMediaPlayer; 
@@ -132,6 +135,61 @@ public class View extends Application {
 			boardCircles.get(i).setFill(new ImagePattern(StartBoard.supercell));
 		}
 	}
+	private void addAnimatedWaves() {
+	    Image waveImage0 = new Image("/media/wave0.png");
+	    ImageView wave0 = new ImageView(waveImage0);
+	    wave0.setFitWidth(WIDTH);
+	    wave0.setPreserveRatio(true);
+	    wave0.setOpacity(0.6);
+	    wave0.setTranslateY(HEIGHT);
+	    wave0.setScaleX(1.0);
+	    wave0.setScaleY(1.0);
+	    TranslateTransition rise0 = new TranslateTransition(Duration.seconds(8), wave0);
+	    rise0.setFromY(HEIGHT);
+	    rise0.setToY(-waveImage0.getHeight());
+	    rise0.setCycleCount(TranslateTransition.INDEFINITE);
+	    rise0.setInterpolator(Interpolator.LINEAR);
+	    rise0.setAutoReverse(false);
+	    gamePane.getChildren().add(wave0);
+	    StackPane.setAlignment(wave0, Pos.BOTTOM_CENTER);
+	    rise0.play();
+
+	    Image waveImage1 = new Image("/media/wave1.png");
+	    ImageView wave1 = new ImageView(waveImage1);
+	    wave1.setFitWidth(WIDTH);
+	    wave1.setPreserveRatio(true);
+	    wave1.setOpacity(0.5);
+	    wave1.setTranslateY(HEIGHT + 100);
+	    wave1.setScaleX(1.2);
+	    wave1.setScaleY(1.2);
+	    TranslateTransition rise1 = new TranslateTransition(Duration.seconds(12), wave1);
+	    rise1.setFromY(HEIGHT + 100);
+	    rise1.setToY(-waveImage1.getHeight() * 1.2);
+	    rise1.setCycleCount(TranslateTransition.INDEFINITE);
+	    rise1.setInterpolator(Interpolator.LINEAR);
+	    rise1.setAutoReverse(false);
+	    gamePane.getChildren().add(wave1);
+	    StackPane.setAlignment(wave1, Pos.BOTTOM_CENTER);
+	    rise1.play();
+
+	    Image waveImage2 = new Image("/media/wave2.png");
+	    ImageView wave2 = new ImageView(waveImage2);
+	    wave2.setFitWidth(WIDTH);
+	    wave2.setPreserveRatio(true);
+	    wave2.setOpacity(0.4);
+	    wave2.setTranslateY(HEIGHT + 200);
+	    wave2.setScaleX(1.4);
+	    wave2.setScaleY(1.4);
+	    TranslateTransition rise2 = new TranslateTransition(Duration.seconds(16), wave2);
+	    rise2.setFromY(HEIGHT + 200);
+	    rise2.setToY(-waveImage2.getHeight() * 1.4);
+	    rise2.setCycleCount(TranslateTransition.INDEFINITE);
+	    rise2.setInterpolator(Interpolator.LINEAR);
+	    rise2.setAutoReverse(false);
+	    gamePane.getChildren().add(wave2);
+	    StackPane.setAlignment(wave2, Pos.BOTTOM_CENTER);
+	    rise2.play();
+	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Image bgImage = new Image("/media/main_menu.jpg");
@@ -139,6 +197,7 @@ public class View extends Application {
 		bgImageView.setFitWidth(1980);
 		bgImageView.setFitHeight(1080);
 		bgImageView.setPreserveRatio(false);
+		addAnimatedWaves();
 		MediaPlayer bgMusicPlayer = new MediaPlayer(
 		        new Media(getClass().getResource("/media/Audio/main_menu_music.mp3").toExternalForm())
 		    );
