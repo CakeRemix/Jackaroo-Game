@@ -366,10 +366,7 @@ public class View extends Application {
 		bottomRight.setTranslateY(-160);
 		
 		
-		ArrayList<Cell> track = game.getBoard().getTrack();
-		for(int i = 0;i<track.size();i++){
-			System.out.println(cellToPoint.get(track.get(i))+"  "+i);
-		}
+	
 		gamePane.getChildren().addAll(topLeft, topRight, bottomRight,
 				bottomLeft);
 		
