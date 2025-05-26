@@ -146,7 +146,7 @@ public class View extends Application {
 		bgMusicPlayer.play();
 		Button startButton = new Button("Start");
 
-		startButton.setPrefSize(200, 200);
+		startButton.setPrefSize(313, 100);
 		startButton
 				.setFont(Font.font("Cinzel Decorative", FontWeight.BOLD, 32));
 		Image image = new Image(getClass().getResource("/media/menu_button.png").toExternalForm());
@@ -156,12 +156,12 @@ public class View extends Application {
 		    BackgroundRepeat.NO_REPEAT,
 		    BackgroundRepeat.NO_REPEAT,
 		    BackgroundPosition.CENTER,
-		    new BackgroundSize(200, 200, false, false, false, false)
+		    new BackgroundSize(313, 100, false, false, false, false)
 		);
 
 		startButton.setBackground(new Background(bgimage));
 		startButton.setText(""); // Remove text, or overlay if desired
-		startButton.setPrefSize(200, 200); // Match image size
+		startButton.setPrefSize(313, 100); // Match image size
 		startButton.setTextFill(Color.WHITE);
 
 		Font font = Font.font("Open Sans", FontWeight.MEDIUM, 18);
