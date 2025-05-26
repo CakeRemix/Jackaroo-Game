@@ -109,11 +109,7 @@ public class updateCells {
 	        double dy = to.y - from.y;
 	     // Flip horizontally if moving to a point above the screen center
 	        double centerY = View.HEIGHT / 2.0;
-	        if (to.y > centerY) {
-	            minion.setScaleX(-1); // flip vertically
-	        } else {
-	            minion.setScaleX(1);  // reset to normal
-	        }
+	        minion.setScaleX(to.y > centerY ? -1 : 1);
 
 /*
 	        double angleRad = Math.atan2(dy, dx);

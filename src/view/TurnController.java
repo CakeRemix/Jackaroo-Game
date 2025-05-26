@@ -225,7 +225,7 @@ public class TurnController {
 			return;
 		}
 		
-		PauseTransition delay = new PauseTransition(Duration.seconds(1.3));
+		PauseTransition delay = new PauseTransition(Duration.seconds(1.75));
 		delay.setOnFinished(evt -> {
 
 			if (View.game.canPlayTurn()) {
