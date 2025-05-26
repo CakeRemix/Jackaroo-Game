@@ -264,10 +264,10 @@ public class View extends Application {
 		gameroot.getChildren().add(boardCells);
 	
 		marblesPane = new AnchorPane();
-		minionRed.setFill(new ImagePattern(new Image("/media/minion2.png")));
+		minionRed.setFill(new ImagePattern(new Image("/media/minion1.png")));
 		minionBlue.setFill(new ImagePattern(new Image("/media/minion2.png")));
-		minionYellow.setFill(new ImagePattern(new Image("/media/minion2.png")));
-		minionGreen.setFill(new ImagePattern(new Image("/media/minion2.png")));
+		minionYellow.setFill(new ImagePattern(new Image("/media/minion3.png")));
+		minionGreen.setFill(new ImagePattern(new Image("/media/minion4.png")));
 		
 		gameroot.getChildren().add(minionRed);
 		gameroot.getChildren().add(minionBlue);
