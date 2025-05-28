@@ -12,6 +12,7 @@ import engine.board.SafeZone;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -22,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 
 public class updateCells {
@@ -103,9 +105,12 @@ public class updateCells {
 	    for (int i = 1; i < path.size(); i++) {
 	        Pair from = path.get(i-1);
 	        Pair to = path.get(i);
-
 	        double dx = to.x - from.x;
 	        double dy = to.y - from.y;
+	     // Flip horizontally if moving to a point above the screen center
+	        double centerY = View.HEIGHT / 2.0;
+	        minion.setScaleX(to.y > centerY ? -1 : 1);
+
 /*
 	        double angleRad = Math.atan2(dy, dx);
 	        double angleDeg = Math.toDegrees(angleRad);
@@ -123,8 +128,10 @@ public class updateCells {
 	        PauseTransition updateMarble = new PauseTransition(Duration.millis(200));
 	        int finalI = i; // required for lambda expression
 	        updateMarble.setOnFinished(e -> {
-	            marble.setCenterX(path.get(finalI + 1).x);
-	            marble.setCenterY(path.get(finalI + 1).y);
+	        	if (finalI + 1 < path.size()) {
+	        	    marble.setCenterX(path.get(finalI + 1).x);
+	        	    marble.setCenterY(path.get(finalI + 1).y);
+	        	}
 	        });
 
 	        fullSequence.getChildren().addAll(move, updateMarble);

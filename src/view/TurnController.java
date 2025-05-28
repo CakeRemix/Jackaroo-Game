@@ -185,7 +185,7 @@ public class TurnController {
 		updateCells.update();
 		if (Board.isTrapInPath != -1) {
 		    //playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
-		    //showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
+		    showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
 		    Board.isTrapInPath = -1;
 		}
 
@@ -225,7 +225,7 @@ public class TurnController {
 			return;
 		}
 		
-		PauseTransition delay = new PauseTransition(Duration.seconds(1.3));
+		PauseTransition delay = new PauseTransition(Duration.seconds(1.75));
 		delay.setOnFinished(evt -> {
 
 			if (View.game.canPlayTurn()) {
@@ -266,6 +266,7 @@ public class TurnController {
 					System.out.println("TRAP for "
 							+ View.players.get(playerIdx).getName());
 					//	playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
+					//showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
 					Board.isTrapInPath = -1;
 				}
 				
@@ -421,41 +422,67 @@ public class TurnController {
 		}
 	}
 	private static void showTrapCutscene(Node anyNodeInScene) {
-		String index = String.valueOf(View.boardCircles.indexOf(anyNodeInScene)/25);
+	    String index = String.valueOf(View.boardCircles.indexOf(anyNodeInScene) / 25);
 	    Platform.runLater(() -> {
 	        Scene scene = anyNodeInScene.getScene();
 	        Parent root = scene.getRoot();
 	        StackPane stackRoot;
+
 	        if (root instanceof StackPane) {
 	            stackRoot = (StackPane) root;
 	        } else {
 	            stackRoot = new StackPane();
 	            stackRoot.getChildren().add(root);
-	            scene.setRoot(stackRoot); // this line replaces the root
+	            scene.setRoot(stackRoot);
 	        }
-	        String videoPath = TurnController.class.getResource("/video/trap_video_"+index+".mp4").toExternalForm();
+
+	        String videoPath = TurnController.class.getResource("/video/trap_video_" + index + ".mp4").toExternalForm();
 	        Media media = new Media(videoPath);
 	        MediaPlayer mediaPlayer = new MediaPlayer(media);
 	        MediaView mediaView = new MediaView(mediaPlayer);
+
 	        mediaView.setPreserveRatio(false);
-	        mediaView.setFitWidth(scene.getWidth());
-	        mediaView.setFitHeight(scene.getHeight());
-	        StackPane videoOverlay = new StackPane(mediaView);
-	        videoOverlay.setStyle("-fx-background-color: black;");
-	        videoOverlay.setOnMouseClicked(e->{
-	        	stackRoot.getChildren().remove(videoOverlay);
-	            mediaPlayer.dispose();
-	        });
+	        mediaView.setFitWidth(400);
+	        mediaView.setFitHeight(300);
 
-	        stackRoot.getChildren().add(videoOverlay);
-	        mediaPlayer.setOnEndOfMedia(() -> {
-	            stackRoot.getChildren().remove(videoOverlay);
-	            mediaPlayer.dispose();
-	        });
+	        // Container for video and button (only 800x600)
+	        StackPane videoBox = new StackPane();
+	        videoBox.setPrefSize(400, 300);
+	        videoBox.setMaxSize(400, 300);
+	        videoBox.setStyle("-fx-background-color: black;"); // background inside only
 
+	        videoBox.getChildren().add(mediaView);
+
+	        // Skip button
+	        Button skipButton = new Button("Skip");
+	        skipButton.setStyle("-fx-font-size: 16px; -fx-background-color: rgba(255,255,255,0.8);");
+	        StackPane.setAlignment(skipButton, Pos.TOP_RIGHT);
+	        StackPane.setMargin(skipButton, new Insets(10));
+	        videoBox.getChildren().add(skipButton);
+
+	        // Main overlay container (centers the box)
+	        StackPane overlay = new StackPane(videoBox); // centers the 800x600 box
+	        overlay.setPickOnBounds(true); // allow mouse clicks outside the box to skip
+
+	        // Skip logic
+	        Runnable skipVideo = () -> {
+	            if (stackRoot.getChildren().contains(overlay)) {
+	                stackRoot.getChildren().remove(overlay);
+	                mediaPlayer.stop();
+	                mediaPlayer.dispose();
+	            }
+	        };
+
+	        overlay.setOnMouseClicked(e -> skipVideo.run());
+	        skipButton.setOnAction(e -> skipVideo.run());
+
+	        stackRoot.getChildren().add(overlay);
+	        mediaPlayer.setOnEndOfMedia(skipVideo);
 	        mediaPlayer.play();
 	    });
 	}
+
+
 
 	public static void playTrapShakeAnimation(Circle playerToken) {
 	    /*TranslateTransition shake = new TranslateTransition(Duration.millis(50), playerToken);
