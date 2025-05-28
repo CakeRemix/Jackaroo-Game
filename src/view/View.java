@@ -339,7 +339,8 @@ public class View extends Application {
 
 		firePit = new StackPane();
 		gamePane.getChildren().add(firePit);
-		firePit.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		//firePit.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		firePit.setMaxSize(100, 200);
 		firePit.setAlignment(Pos.CENTER);
 
 
@@ -400,6 +401,7 @@ public class View extends Application {
 		distributeCards(players);
 		deselectButton();
 		createTurnLabel();
+		
 		
 		VBox topLeft = createPlayerIndicator(players.get(1));
 		StackPane.setAlignment(topLeft, Pos.TOP_LEFT);
@@ -846,7 +848,7 @@ public class View extends Application {
 	                    backgroundMediaPlayer = null;
 	                }
 
-	                playTransitionVideo(primaryStage, playerName);
+	                gameScene(primaryStage, playerName);
 	            } catch (Exception ex) {
 	                System.out.println(ex.toString());
 	            }
