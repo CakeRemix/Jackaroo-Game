@@ -266,7 +266,7 @@ public class TurnController {
 					System.out.println("TRAP for "
 							+ View.players.get(playerIdx).getName());
 					//	playTrapShakeAnimation(View.boardCircles.get(Board.isTrapInPath));
-					showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
+					//showTrapCutscene(View.boardCircles.get(Board.isTrapInPath));
 					Board.isTrapInPath = -1;
 				}
 				
