@@ -848,7 +848,7 @@ public class View extends Application {
 	                    backgroundMediaPlayer = null;
 	                }
 
-	                gameScene(primaryStage, playerName);
+	                playTransitionVideo(primaryStage, playerName);
 	            } catch (Exception ex) {
 	                System.out.println(ex.toString());
 	            }
