@@ -14,7 +14,10 @@ A JavaFX-based **Jackaroo board game**, featuring a **League of Legends-inspired
 
 ## 📸 Screenshots
 
-_Add screenshots or GIFs of the game interface here!_
+![image](https://github.com/user-attachments/assets/c9bbc86f-7709-4ced-8a46-1e132c4ce1f3)
+![image](https://github.com/user-attachments/assets/cad369e9-80b5-4b74-b09b-da39008db20a)
+![image](https://github.com/user-attachments/assets/4ced0807-7605-47c7-b5f4-0363448705bd)
+
 
 ## 🚀 Getting Started
 
