@@ -42,24 +42,24 @@ cd jackaroo-game
 
 ## 📂 Project Structure
 
-📁 src/
- ┣ 📁 resources/
- ┃ ┣ 🃏 cards/
- ┃ ┣ 🤖 cpuIcons/
- ┃ ┣ 🖼️ media/
- ┃ ┃ ┣ 🎵 Audio/
- ┃ ┣ 🕹️ playerIcons/
- ┃ ┣ 💎 stones/
- ┃ ┗ 📹 Video/
- ┣ 📁 src/
- ┃ ┣ 📁 controller/
- ┃ ┣ 📁 engine/
- ┃ ┃ ┣ 📁 Board/
- ┃ ┣ 📁 exception/
- ┃ ┣ 📁 model/
- ┃ ┣ 📁 test/
- ┃ ┗ 📁 view/
- ┗ Readme.mx
+- 📁 src/
+- ┣ 📁 resources/
+- ┃ ┣ 🃏 cards/
+- ┃ ┣ 🤖 cpuIcons/
+- ┃ ┣ 🖼️ media/
+- ┃ ┃ ┣ 🎵 Audio/
+- ┃ ┣ 🕹️ playerIcons/
+- ┃ ┣ 💎 stones/
+- ┃ ┗ 📹 Video/
+- ┣ 📁 src/
+- ┃ ┣ 📁 controller/
+- ┃ ┣ 📁 engine/
+- ┃ ┃ ┣ 📁 Board/
+- ┃ ┣ 📁 exception/
+- ┃ ┣ 📁 model/
+- ┃ ┣ 📁 test/
+- ┃ ┗ 📁 view/
+- ┗ Readme.mx
 
 ## License
 
